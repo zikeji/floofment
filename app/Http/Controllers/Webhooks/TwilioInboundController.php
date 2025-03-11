@@ -20,13 +20,13 @@ class TwilioInboundController extends Controller
         $recording->save();
 
         $response = new VoiceResponse();
-        $response->say('Please leave a message', ['voice' => 'alice']);
+        $response->play(url('audio/***REMOVED***'));
         $response->record([
             'action' => 'record',
             'method' => 'POST',
             'timeout' => 5,
             'maxLength' => 5 * 60,
-            'playBeep' => true,
+            'playBeep' => false,
             'trim' => 'trim-silence',
             'recordingStatusCallback' => 'record/status',
         ]);
