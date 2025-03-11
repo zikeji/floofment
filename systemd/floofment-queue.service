@@ -1,0 +1,11 @@
+[Unit]
+Description=Laravel queue worker for floofment
+
+[Service]
+User=apache
+Group=apache
+Restart=always
+ExecStart=/usr/bin/php /var/www/floofment/artisan queue:work --daemon --env=production
+
+[Install]
+WantedBy=multi-user.target
