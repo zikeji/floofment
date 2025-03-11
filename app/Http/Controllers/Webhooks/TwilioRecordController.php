@@ -22,7 +22,7 @@ class TwilioRecordController extends Controller
         $recording->save();
 
         $response = new VoiceResponse();
-        $response->say('Thank you.');
+        $response->hangup();
         return $response;
     }
 
