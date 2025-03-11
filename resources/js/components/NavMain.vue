@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Badge } from '@/components/ui/badge';
 import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 
@@ -19,6 +20,9 @@ const page = usePage<SharedData>();
                     <Link :href="item.href">
                         <component :is="item.icon" />
                         <span>{{ item.title }}</span>
+                        <template v-if="item.badgeNumber">
+                            <Badge>{{ item.badgeNumber }}</Badge>
+                        </template>
                     </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>

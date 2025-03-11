@@ -16,6 +16,7 @@ export interface NavItem {
     href: string;
     icon?: LucideIcon;
     isActive?: boolean;
+    badgeNumber?: number;
 }
 
 export interface SharedData extends PageProps {
@@ -23,6 +24,9 @@ export interface SharedData extends PageProps {
     quote: { message: string; author: string };
     auth: Auth;
     ziggy: Config & { location: string };
+    phoneRecordings?: {
+        count: number;
+    }
 }
 
 export interface User {

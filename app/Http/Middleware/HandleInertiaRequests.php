@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\PhoneRecording;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -46,6 +47,11 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            ...(auth()->hasUser() ? [
+                'phoneRecordings' => [
+                    'count' => PhoneRecording::count(),
+                ],
+            ] : []),
             'ziggy' => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
