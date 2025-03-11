@@ -39,4 +39,13 @@ export interface User {
     updated_at: string;
 }
 
+export interface PhoneRecording {
+    sid: string;
+    from: string;
+    recording_url: string;
+    status: 'started' | 'recorded' | 'available';
+    created_at: string;
+    updated_at: string;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
