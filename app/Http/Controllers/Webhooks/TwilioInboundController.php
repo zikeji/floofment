@@ -36,8 +36,8 @@ class TwilioInboundController extends Controller
 
     public function status(Request $request) {
         Log::debug('status-update', $request->all());
-        if (collect(['completed', 'failed'])->contains($request->get('status'))) {
-            $recording = PhoneRecording::findOrFail('sid', $request->get('CallSid'));
+        if (collect(['completed', 'failed'])->contains($request->get('CallStatus'))) {
+            $recording = PhoneRecording::findOrFail( $request->get('CallSid'));
             if ($recording->status === PhoneRecordingStatus::Started) {
                 Log::debug('deleted recording for non-recorded call');
                 $recording->delete();
