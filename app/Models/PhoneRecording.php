@@ -3,10 +3,15 @@
 namespace App\Models;
 
 use App\PhoneRecordingStatus;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PhoneRecording extends Model
 {
+    use BroadcastsEvents, HasFactory;
+
     protected $primaryKey = 'sid';
 
     protected $keyType = 'string';
@@ -30,5 +35,12 @@ class PhoneRecording extends Model
             config('filesystems.disks.s3.bucket'),
             $this->sid,
         );
+    }
+
+    public function broadcastOn(string $event): array
+    {
+        return [
+            new PrivateChannel('App.Models.PhoneRecording'),
+        ];
     }
 }

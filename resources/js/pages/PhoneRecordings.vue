@@ -12,8 +12,7 @@ import {
 } from '@/components/ui/table'
 import PhoneRecordingStatus from '@/components/phone-recordings/PhoneRecordingStatus.vue';
 import RecordingPlayer from '@/components/phone-recordings/RecordingPlayer.vue';
-
-usePoll(5000);
+import { onBeforeUnmount, onMounted } from 'vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,6 +26,24 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+onMounted(function() {
+    const channel = Echo.private('App.Models.PhoneRecording');
+    channel.listen('.PhoneRecordingCreated', (e: { model: PhoneRecording }) => {
+        props.recordings.unshift(e.model);
+    });
+    channel.listen('.PhoneRecordingUpdated', (e: { model: PhoneRecording }) => {
+        const i = props.recordings.findIndex((m) => m.sid === e.model.sid);
+        props.recordings[i] = e.model;
+    });
+    channel.listen('.PhoneRecordingDeleted', (e: { model: PhoneRecording }) => {
+        props.recordings.splice(props.recordings.findIndex((m) => m.sid === e.model.sid), 1);
+    });
+});
+
+onBeforeUnmount(function() {
+    Echo.private('App.Models.PhoneRecording').stopListeningToAll();
+});
 </script>
 
 <template>
