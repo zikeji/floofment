@@ -8,6 +8,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PhoneRecording extends Model
 {
@@ -37,7 +38,12 @@ class PhoneRecording extends Model
         });
     }
 
-    protected $appends = ['recording_url'];
+    protected $appends = ['label', 'recording_url'];
+
+    public function getLabelAttribute(): string
+    {
+        return $this->contact->nickname ?? $this->from;
+    }
 
     public function getRecordingUrlAttribute(): string
     {
@@ -54,5 +60,10 @@ class PhoneRecording extends Model
         return [
             new PrivateChannel('App.Models.PhoneRecording'),
         ];
+    }
+
+    public function contact(): BelongsTo
+    {
+        return $this->belongsTo(Contact::class, 'from', 'phone');
     }
 }

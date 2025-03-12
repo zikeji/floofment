@@ -14,6 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     })->name('dashboard');
 
     Route::get('phone-recordings', [PhoneRecordingsController::class, 'index'])->name('phone-recordings');
+    Route::patch('phone-recordings/{phoneRecording}', [PhoneRecordingsController::class, 'update'])->name('phone-recordings.update');
     Route::get('phone-recordings/{phoneRecording}/download', [PhoneRecordingsController::class, 'download'])->name('phone-recordings.download');
 });
 

@@ -3,16 +3,17 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { PhoneRecording, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import PhoneRecordingStatus from '@/components/phone-recordings/PhoneRecordingStatus.vue';
-import RecordingPlayer from '@/components/phone-recordings/RecordingPlayer.vue';
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import PhoneRecordingStatus from '@/components/phone-recordings/PhoneRecordingStatus.vue';
+import PhoneContact from '@/components/phone-recordings/PhoneContact.vue';
+import RecordingPlayer from '@/components/phone-recordings/RecordingPlayer.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -33,7 +34,7 @@ watch(() => sharedVolume.value, (volume) => {
     localStorage.setItem('volume', volume.toString());
 });
 
-onMounted(function() {
+onMounted(function () {
     sharedVolume.value = parseFloat(localStorage.getItem('volume') ?? '1');
 
     const channel = Echo.private('App.Models.PhoneRecording');
@@ -49,7 +50,7 @@ onMounted(function() {
     });
 });
 
-onBeforeUnmount(function() {
+onBeforeUnmount(function () {
     Echo.private('App.Models.PhoneRecording').stopListeningToAll();
 });
 </script>
@@ -72,7 +73,7 @@ onBeforeUnmount(function() {
                 <TableBody>
                     <TableRow v-for="recording in props.recordings" :key="recording.sid">
                         <TableCell class="font-medium">
-                            {{ recording.from }}
+                            <PhoneContact :recording="recording" />
                         </TableCell>
                         <TableCell>
                             <PhoneRecordingStatus :status="recording.status" />
@@ -80,7 +81,8 @@ onBeforeUnmount(function() {
                         <TableCell>{{ new Date(recording.created_at).toLocaleString() }}</TableCell>
                         <TableCell class="text-right">
                             <template v-if="recording.status === 'available'">
-                                <RecordingPlayer :recording="recording" :volume="sharedVolume" @update-volume="sharedVolume = $event" />
+                                <RecordingPlayer :recording="recording" :volume="sharedVolume"
+                                    @update-volume="sharedVolume = $event" />
                             </template>
                         </TableCell>
                     </TableRow>

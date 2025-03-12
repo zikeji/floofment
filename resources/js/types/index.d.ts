@@ -43,6 +43,7 @@ export interface PhoneRecording {
     sid: string;
     called: string;
     from: string;
+    label: string;
     recording_url: string;
     status: 'started' | 'recorded' | 'available';
     created_at: string;
