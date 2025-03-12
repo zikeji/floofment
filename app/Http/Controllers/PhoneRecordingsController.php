@@ -19,7 +19,7 @@ class PhoneRecordingsController extends Controller
         ]);
     }
 
-    public function update(PhoneRecording $phoneRecording, UpdatePhoneRecordingRequest $request): RedirectResponse {
+public function update(PhoneRecording $phoneRecording, UpdatePhoneRecordingRequest $request): RedirectResponse {
         if ($request->validated('label') !== null) {
             if ($phoneRecording->contact === null) {
                 $phoneRecording->contact()->create([

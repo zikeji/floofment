@@ -39,6 +39,7 @@ onMounted(function () {
 
     const channel = Echo.private('App.Models.PhoneRecording');
     channel.listen('.PhoneRecordingCreated', (e: { model: PhoneRecording }) => {
+        e.model.label = e.model.label ?? e.model.from;
         props.recordings.unshift(e.model);
     });
     channel.listen('.PhoneRecordingUpdated', (e: { model: PhoneRecording }) => {

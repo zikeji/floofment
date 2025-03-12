@@ -20,6 +20,8 @@ class PhoneRecording extends Model
 
     public $incrementing = false;
 
+    protected $fillable = ['sid', 'from', 'called'];
+
     protected function casts(): array
     {
         return [
@@ -42,7 +44,7 @@ class PhoneRecording extends Model
 
     public function getLabelAttribute(): string
     {
-        return $this->contact->nickname ?? $this->from;
+        return $this->contact?->nickname ?? $this->from;
     }
 
     public function getRecordingUrlAttribute(): string

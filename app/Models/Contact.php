@@ -9,7 +9,7 @@ class Contact extends Model
 {
     use HasUlids;
 
-    protected $fillable = ['nickname'];
+    protected $fillable = ['phone', 'nickname'];
 
     public function phoneRecordings()
     {

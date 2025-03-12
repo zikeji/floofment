@@ -14,11 +14,11 @@ class TwilioInboundController extends Controller
     public function receive(Request $request) {
         Log::debug('inbound-initiated', $request->all());
 
-        $recording = new PhoneRecording;
-        $recording->sid = $request->get('CallSid');
-        $recording->from = $request->get('From');
-        $recording->called = $request->get('Called');
-        $recording->save();
+        PhoneRecording::create([
+            'sid' => $request->get('CallSid'),
+            'from' => $request->get('From'),
+            'called' => $request->get('Called'),
+        ]);
 
         $response = new VoiceResponse();
         $response->play(url('audio/***REMOVED***'));
