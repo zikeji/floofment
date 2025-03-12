@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\PhoneRecordingsCountChanged;
 use App\PhoneRecordingStatus;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Database\Eloquent\BroadcastsEvents;
@@ -23,6 +24,17 @@ class PhoneRecording extends Model
         return [
             'status' => PhoneRecordingStatus::class,
         ];
+    }
+
+    protected static function booting(): void
+    {
+        static::created(function () {
+            broadcast(new PhoneRecordingsCountChanged(static::count()));
+        });
+
+        static::deleted(function () {
+            broadcast(new PhoneRecordingsCountChanged(static::count()));
+        });
     }
 
     protected $appends = ['recording_url'];

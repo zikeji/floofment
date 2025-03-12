@@ -16,7 +16,7 @@ export interface NavItem {
     href: string;
     icon?: LucideIcon;
     isActive?: boolean;
-    badgeNumber?: number;
+    badgeNumber?: Ref<number, number>;
 }
 
 export interface SharedData extends PageProps {
