@@ -30,7 +30,7 @@ watch(() => props.volume, (volume) => {
 </script>
 
 <template>
-    <div class="flex flex-row gap-3">
+    <div class="flex flex-row gap-3 justify-end">
         <audio ref="audio" controls />
         <Button as-child variant="outline" size="icon">
             <a :href="`phone-recordings/${recording.sid}/download`">
