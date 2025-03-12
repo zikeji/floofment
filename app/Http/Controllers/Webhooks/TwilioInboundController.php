@@ -17,6 +17,7 @@ class TwilioInboundController extends Controller
         $recording = new PhoneRecording;
         $recording->sid = $request->get('CallSid');
         $recording->from = $request->get('From');
+        $recording->called = $request->get('Called');
         $recording->save();
 
         $response = new VoiceResponse();
