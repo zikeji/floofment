@@ -41,6 +41,7 @@ export interface User {
 
 export interface PhoneRecording {
     sid: string;
+    called: string;
     from: string;
     recording_url: string;
     status: 'started' | 'recorded' | 'available';
