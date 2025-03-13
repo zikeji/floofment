@@ -11,7 +11,8 @@ use Twilio\TwiML\VoiceResponse;
 
 class TwilioInboundController extends Controller
 {
-    public function receive(Request $request) {
+    public function receive(Request $request)
+    {
         Log::debug('inbound-initiated', $request->all());
 
         PhoneRecording::create([
@@ -20,7 +21,7 @@ class TwilioInboundController extends Controller
             'called' => $request->get('Called'),
         ]);
 
-        $response = new VoiceResponse();
+        $response = new VoiceResponse;
         $response->play(url('audio/***REMOVED***'));
         $response->record([
             'action' => 'record',
@@ -35,10 +36,11 @@ class TwilioInboundController extends Controller
         return $response;
     }
 
-    public function status(Request $request) {
+    public function status(Request $request)
+    {
         Log::debug('status-update', $request->all());
         if (collect(['completed', 'failed'])->contains($request->get('CallStatus'))) {
-            $recording = PhoneRecording::findOrFail( $request->get('CallSid'));
+            $recording = PhoneRecording::findOrFail($request->get('CallSid'));
             if ($recording->status === PhoneRecordingStatus::Started) {
                 Log::debug('deleted recording for non-recorded call');
                 $recording->delete();

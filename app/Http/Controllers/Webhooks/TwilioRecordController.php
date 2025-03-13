@@ -14,24 +14,27 @@ use Twilio\TwiML\VoiceResponse;
 
 class TwilioRecordController extends Controller
 {
-    public function handle(Request $request) {
+    public function handle(Request $request)
+    {
         Log::debug('recording-started', $request->all());
 
         $recording = PhoneRecording::findOrFail($request->get('CallSid'));
         $recording->status = PhoneRecordingStatus::Recorded;
         $recording->save();
 
-        $response = new VoiceResponse();
+        $response = new VoiceResponse;
         $response->hangup();
+
         return $response;
     }
 
-    public function status(Request $request) {
+    public function status(Request $request)
+    {
         Log::debug('recording-status', $request->all());
 
         $recording = PhoneRecording::findOrFail($request->get('CallSid'));
 
-        $response = Http::withOptions(['stream' => true])->get($request->get('RecordingUrl') . '.mp3')->getBody();
+        $response = Http::withOptions(['stream' => true])->get($request->get('RecordingUrl').'.mp3')->getBody();
 
         Storage::disk('s3')->put(
             "phone_recordings/{$recording->sid}.mp3",

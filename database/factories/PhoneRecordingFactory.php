@@ -17,9 +17,9 @@ class PhoneRecordingFactory extends Factory
     public function definition(): array
     {
         return [
-            'sid' => 'CS' . fake()->md5(),
+            'sid' => 'CS'.fake()->md5(),
             'from' => fake()->e164PhoneNumber(),
-            'called' =>  fake()->e164PhoneNumber(),
+            'called' => fake()->e164PhoneNumber(),
         ];
     }
 }

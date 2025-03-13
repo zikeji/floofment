@@ -8,4 +8,3 @@ enum PhoneRecordingStatus: string
     case Recorded = 'recorded';
     case Available = 'available';
 }
-

@@ -13,13 +13,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PhoneRecordingsController extends Controller
 {
-    public function index(): Response {
+    public function index(): Response
+    {
         return Inertia::render('PhoneRecordings', [
             'recordings' => PhoneRecording::select()->orderBy('created_at', 'desc')->get(),
         ]);
     }
 
-public function update(PhoneRecording $phoneRecording, UpdatePhoneRecordingRequest $request): RedirectResponse {
+    public function update(PhoneRecording $phoneRecording, UpdatePhoneRecordingRequest $request): RedirectResponse
+    {
         if ($request->validated('label') !== null) {
             if ($phoneRecording->contact === null) {
                 $phoneRecording->contact()->create([
@@ -36,10 +38,12 @@ public function update(PhoneRecording $phoneRecording, UpdatePhoneRecordingReque
         return back();
     }
 
-    public function download(PhoneRecording $phoneRecording) {
-        if ($phoneRecording->status !== PhoneRecordingStatus::Available) {
+    public function download(PhoneRecording $phoneRecording)
+    {
+        if ($phoneRecording->status !== PhoneRecordingStatus::Available || ! Storage::disk('s3')->exists("phone_recordings/{$phoneRecording->sid}.mp3")) {
             throw new NotFoundHttpException;
         }
+
         return Storage::disk('s3')->download("phone_recordings/{$phoneRecording->sid}.mp3");
     }
 }

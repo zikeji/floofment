@@ -10,7 +10,6 @@ Broadcast::channel('Sidebar', function () {
     return auth()->hasUser();
 });
 
-
 Broadcast::channel('App.Models.PhoneRecording', function () {
     return auth()->hasUser();
 });
