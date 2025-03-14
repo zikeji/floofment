@@ -13,7 +13,7 @@ import {
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import PhoneRecordingStatus from '@/components/phone-recordings/PhoneRecordingStatus.vue';
 import PhoneContact from '@/components/phone-recordings/PhoneContact.vue';
-import RecordingPlayer from '@/components/phone-recordings/RecordingPlayer.vue';
+import RecordingPlayer from '@/components/RecordingPlayer.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -82,7 +82,8 @@ onBeforeUnmount(function () {
                         <TableCell>{{ new Date(recording.created_at).toLocaleString() }}</TableCell>
                         <TableCell class="text-right">
                             <template v-if="recording.status === 'available'">
-                                <RecordingPlayer :recording="recording" :volume="sharedVolume"
+                                <RecordingPlayer :download-url="`phone-recordings/${recording.sid}/download`"
+                                    :url="recording.recording_url" :volume="sharedVolume"
                                     @update-volume="sharedVolume = $event" />
                             </template>
                         </TableCell>

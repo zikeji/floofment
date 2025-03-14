@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useTemplateRef, watch } from 'vue';
 import { useMediaControls } from '@vueuse/core';
-import Button from '../ui/button/Button.vue';
-import { DownloadCloud, Pause, Play } from 'lucide-vue-next';
-import { PhoneRecording } from '@/types';
+import { Button } from './ui/button';
+import { DownloadCloud } from 'lucide-vue-next';
 
 interface Props {
-    recording: PhoneRecording;
+    url: string;
+    downloadUrl: string;
     volume: number;
 }
 
@@ -17,7 +17,7 @@ const emit = defineEmits<{
 
 const audio = useTemplateRef('audio');
 const { volume: controlVolume } = useMediaControls(audio, {
-    src: props.recording.recording_url,
+    src: props.url,
 });
 
 watch(() => controlVolume.value, (volume) => {
@@ -33,7 +33,7 @@ watch(() => props.volume, (volume) => {
     <div class="flex flex-row gap-3 justify-end">
         <audio ref="audio" controls />
         <Button as-child variant="outline" size="icon">
-            <a :href="`phone-recordings/${recording.sid}/download`">
+            <a :href="downloadUrl">
                 <DownloadCloud />
             </a>
         </Button>
