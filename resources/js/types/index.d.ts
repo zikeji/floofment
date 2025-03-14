@@ -27,6 +27,9 @@ export interface SharedData extends PageProps {
     phoneRecordings?: {
         count: number;
     }
+    sharedMemories?: {
+        count: number;
+    }
 }
 
 export interface User {

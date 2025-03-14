@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\PhoneRecording;
+use App\Models\SharedMemory;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -50,6 +51,9 @@ class HandleInertiaRequests extends Middleware
             ...(auth()->hasUser() ? [
                 'phoneRecordings' => [
                     'count' => PhoneRecording::count(),
+                ],
+                'sharedMemories' => [
+                    'count' => SharedMemory::count(),
                 ],
             ] : []),
             'ziggy' => [
