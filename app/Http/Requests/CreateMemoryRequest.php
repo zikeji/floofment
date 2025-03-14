@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\TurnstileValid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 
@@ -21,6 +22,11 @@ class CreateMemoryRequest extends FormRequest
                 'sometimes',
                 File::image(false)
                     ->max(25 * 1024)
+            ],
+            'turnstileToken' => [
+                'sometimes',
+                'nullable',
+                new TurnstileValid,
             ]
         ];
     }

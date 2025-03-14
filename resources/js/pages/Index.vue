@@ -9,8 +9,12 @@ import FileUpload from 'primevue/fileupload';
 import { CircleX } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { SharedData } from '@/types';
+import VueTurnstile from 'vue-turnstile';
 
 const page = usePage<SharedData>();
+
+const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+const turnstileAppearance = (localStorage.getItem('appearance') || 'auto') as 'auto' | 'light' | 'dark';
 
 const isRecording = ref(false);
 const audioURL = ref('');
@@ -22,11 +26,13 @@ const form = useForm<{
     message: string;
     voiceMessage: Blob | null;
     files: File[];
+    turnstileToken: string;
 }>({
     name: '',
     message: '',
     voiceMessage: null,
     files: [],
+    turnstileToken: '',
 });
 
 const startRecording = async () => {
@@ -101,8 +107,7 @@ function submit() {
                         </div>
                         <div class="grid w-full gap-1.5">
                             <Label class="text-sm font-medium">Voice Message</Label>
-                            <Button type="button"
-                                variant="secondary"
+                            <Button type="button" variant="secondary"
                                 class="inline-flex items-center justify-center rounded-md border border-gray-200 px-4 py-2 text-sm font-medium dark:border-gray-800"
                                 @click="isRecording ? stopRecording() : startRecording()">
                                 {{ isRecording ? '🛑 Stop Recording' : '🎤 Record Audio Message' }}
@@ -117,8 +122,8 @@ function submit() {
                             <div class="flex w-full items-center justify-center">
                                 <FileUpload name="media[]" :multiple="true" :fileLimit="10"
                                     @select="form.files = $event.files" :customUpload="true"
-                                    :pt="{ root: { class: 'w-full' } }" :showUploadButton="false" :showCancelButton="false"
-                                    accept="image/*" :maxFileSize="25 * 1024 * 1024">
+                                    :pt="{ root: { class: 'w-full' } }" :showUploadButton="false"
+                                    :showCancelButton="false" accept="image/*" :maxFileSize="25 * 1024 * 1024">
                                     <template #empty>
                                         <span>Drag and drop files to here to upload.</span>
                                     </template>
@@ -137,11 +142,12 @@ function submit() {
                                                         class="p-8 rounded-border flex flex-col border border-surface items-center gap-4">
                                                         <div>
                                                             <img role="presentation" :alt="file.name"
-                                                                :src="(file as any).objectURL" width="100" height="50" />
+                                                                :src="(file as any).objectURL" width="100"
+                                                                height="50" />
                                                         </div>
                                                         <span
                                                             class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{
-                                                            file.name }}</span>
+                                                                file.name }}</span>
                                                         <Button @click.prevent="removeFileCallback"
                                                             variant="destructive" severity="danger">
                                                             <CircleX />
@@ -157,7 +163,12 @@ function submit() {
                                 <InputError :message="form.errors.files" />
                             </div>
                         </div>
-                        <Button type="submit" class="w-full">
+                        <div class="grid w-full gap-1.5" v-if="turnstileSiteKey">
+                            <Label for="turnstileToken">Are you human?</Label>
+                            <VueTurnstile v-model="form.turnstileToken" :site-key="turnstileSiteKey"
+                                :theme="turnstileAppearance" />
+                        </div>
+                        <Button type="submit" class="w-full" :disabled="form.processing || (!!turnstileSiteKey && !form.turnstileToken)">
                             Share Memory
                         </Button>
                     </form>
