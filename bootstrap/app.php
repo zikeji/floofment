@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->replace(
+            \Illuminate\Http\Middleware\TrustProxies::class,
+            \Monicahq\Cloudflare\Http\Middleware\TrustProxies::class,
+        );
         $middleware->encryptCookies(except: ['appearance']);
         $middleware->validateCsrfTokens(except: [
             'webhook/*',

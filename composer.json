@@ -15,6 +15,7 @@
         "laravel/reverb": "^1.0",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-aws-s3-v3": "^3.0",
+        "monicahq/laravel-cloudflare": "^3.8",
         "tightenco/ziggy": "^2.4",
         "twilio/sdk": "^8.3"
     },
