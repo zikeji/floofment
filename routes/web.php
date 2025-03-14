@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PhoneRecordingsController;
 use App\Http\Controllers\SharedMemoriesController;
 use App\Http\Controllers\ShareMemoryController;
@@ -11,9 +12,7 @@ Route::post('/memory', [ShareMemoryController::class, 'create'])->name('memory.c
 Route::get('/thanks-for-sharing', [ShareMemoryController::class, 'success'])->name('memory.shared.confirmation');
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
-    Route::get('dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('phone-recordings', [PhoneRecordingsController::class, 'index'])->name('phone-recordings');
     Route::patch('phone-recordings/{phoneRecording}', [PhoneRecordingsController::class, 'update'])->name('phone-recordings.update');
