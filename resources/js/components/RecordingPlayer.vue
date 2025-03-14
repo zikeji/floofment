@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTemplateRef, watch } from 'vue';
 import { useMediaControls } from '@vueuse/core';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { DownloadCloud } from 'lucide-vue-next';
 
 interface Props {
