@@ -13,11 +13,16 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
-class SharedMemoryController extends Controller
+class ShareMemoryController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Index');
+        return Inertia::render('share-memory/Create');
+    }
+
+    public function success()
+    {
+        return Inertia::render('share-memory/Success');
     }
 
     public function create(CreateMemoryRequest $request): RedirectResponse
