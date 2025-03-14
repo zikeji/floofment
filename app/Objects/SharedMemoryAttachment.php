@@ -8,9 +8,13 @@ use Illuminate\Support\Facades\Storage;
 class SharedMemoryAttachment implements \JsonSerializable, Arrayable
 {
     public readonly string $id;
+
     public readonly string $name;
+
     public readonly string $mimeType;
+
     public readonly string $extension;
+
     public readonly int $size;
 
     public function __construct(string $id, string $name, string $mimeType, string $extension, int $size)
@@ -39,7 +43,7 @@ class SharedMemoryAttachment implements \JsonSerializable, Arrayable
             'name' => $this->name,
             'mimeType' => $this->mimeType,
             'extension' => $this->extension,
-            'size' => $this->size
+            'size' => $this->size,
         ];
     }
 

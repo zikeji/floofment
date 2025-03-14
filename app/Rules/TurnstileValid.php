@@ -23,15 +23,17 @@ class TurnstileValid implements ValidationRule
         }
 
         if ($value === null) {
-            $fail("The :attribute field is required.");
+            $fail('The :attribute field is required.');
+
             return;
         }
 
-        if (!Http::post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+        if (! Http::post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
             'secret' => config('services.turnstile.secret_key'),
             'response' => $value,
         ])->json('success')) {
             $fail('You might be a robot, try again.');
+
             return;
         }
     }

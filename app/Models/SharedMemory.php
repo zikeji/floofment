@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Storage;
  */
 class SharedMemory extends Model
 {
-    use HasUlids, BroadcastsEvents;
+    use BroadcastsEvents, HasUlids;
 
     protected $fillable = ['name', 'message', 'has_voice_message', 'voice_message_extension', 'attachments', 'ip_address', 'user_agent'];
 

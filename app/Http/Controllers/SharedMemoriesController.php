@@ -21,7 +21,7 @@ class SharedMemoriesController extends Controller
     {
         $path = "voice_messages/{$sharedMemory->id}.{$sharedMemory->voice_message_extension}";
 
-        if (!$sharedMemory->has_voice_message || ! Storage::disk('s3')->exists($path)) {
+        if (! $sharedMemory->has_voice_message || ! Storage::disk('s3')->exists($path)) {
             throw new NotFoundHttpException;
         }
 

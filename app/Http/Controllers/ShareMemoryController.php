@@ -28,18 +28,18 @@ class ShareMemoryController extends Controller
     public function create(CreateMemoryRequest $request): RedirectResponse
     {
         $validator = Validator::make(['token' => $request->input('turnstileToken')], ['token' => ['sometimes', 'nullable', new TurnstileValid]]);
-        if (!$validator->passes()) {
+        if (! $validator->passes()) {
             return back()->withErrors($validator->errors());
         }
 
         $executed = RateLimiter::attempt(
             "submit-memory-{$request->session()->getId()}",
             3,
-            fn() => true,
+            fn () => true,
             120,
         );
 
-        if (!$executed) {
+        if (! $executed) {
             return back()->withErrors([
                 'rateLimit' => 'You are submitting too many memories. Please try again later.',
             ]);

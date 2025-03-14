@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\PhoneRecordingsController;
 use App\Http\Controllers\SharedMemoriesController;
 use App\Http\Controllers\ShareMemoryController;
-use App\Http\Controllers\PhoneRecordingsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 

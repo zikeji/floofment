@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\TurnstileValid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 
@@ -16,12 +15,12 @@ class CreateMemoryRequest extends FormRequest
             'voiceMessage' => [
                 'sometimes', 'required_without:message', 'nullable',
                 File::types(['audio/*'])
-                    ->max(25 * 1024)
+                    ->max(25 * 1024),
             ],
             'files.*' => [
                 'sometimes',
                 File::image(false)
-                    ->max(25 * 1024)
+                    ->max(25 * 1024),
             ],
         ];
     }
