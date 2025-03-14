@@ -6,13 +6,40 @@ use App\Collections\SharedMemoryAttachments;
 use App\Http\Requests\CreateMemoryRequest;
 use App\Models\SharedMemory;
 use App\Objects\SharedMemoryAttachment;
+use App\Rules\TurnstileValid;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class SharedMemoryController extends Controller
 {
+    public function index()
+    {
+        return Inertia::render('Index');
+    }
+
     public function create(CreateMemoryRequest $request): RedirectResponse
     {
+        $validator = Validator::make(['token' => $request->input('turnstileToken')], ['token' => ['sometimes', 'nullable', new TurnstileValid]]);
+        if (!$validator->passes()) {
+            return back()->withErrors($validator->errors());
+        }
+
+        $executed = RateLimiter::attempt(
+            "submit-memory-{$request->session()->getId()}",
+            3,
+            fn() => true,
+            120,
+        );
+
+        if (!$executed) {
+            return back()->withErrors([
+                'rateLimit' => 'You are submitting too many memories. Please try again later.',
+            ]);
+        }
+
         $hasVoiceMessage = $request->hasFile('voiceMessage');
         $voiceMessageExtension = $hasVoiceMessage ? $request->file('voiceMessage')->extension() : null;
 

@@ -5,9 +5,12 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\Validator;
 
 class TurnstileValid implements ValidationRule
 {
+    protected Validator $validator;
+
     /**
      * Run the validation rule.
      *
@@ -28,7 +31,7 @@ class TurnstileValid implements ValidationRule
             'secret' => config('services.turnstile.secret_key'),
             'response' => $value,
         ])->json('success')) {
-            $fail("You might be a robot, try again.");
+            $fail('You might be a robot, try again.');
             return;
         }
     }

@@ -6,13 +6,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import InputError from '@/components/InputError.vue';
 import FileUpload from 'primevue/fileupload';
-import { CircleX } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle, CircleX, LoaderCircle } from 'lucide-vue-next';
+import { ref, useTemplateRef } from 'vue';
 import { SharedData } from '@/types';
 import VueTurnstile from 'vue-turnstile';
 
 const page = usePage<SharedData>();
 
+const turnstile = useTemplateRef('turnstile');
 const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 const turnstileAppearance = (localStorage.getItem('appearance') || 'auto') as 'auto' | 'light' | 'dark';
 
@@ -61,6 +63,11 @@ const stopRecording = () => {
 function submit() {
     form.post('/memory', {
         preserveScroll: 'errors',
+        onError: () => {
+            if ((form.errors as any).rateLimit) {
+                turnstile.value?.reset();
+            }
+        },
     });
 }
 </script>
@@ -165,10 +172,22 @@ function submit() {
                         </div>
                         <div class="grid w-full gap-1.5" v-if="turnstileSiteKey">
                             <Label for="turnstileToken">Are you human?</Label>
-                            <VueTurnstile v-model="form.turnstileToken" :site-key="turnstileSiteKey"
+                            <VueTurnstile v-model="form.turnstileToken" ref="turnstile" :site-key="turnstileSiteKey"
                                 :theme="turnstileAppearance" />
+                            <InputError :message="form.errors.turnstileToken" />
                         </div>
-                        <Button type="submit" class="w-full" :disabled="form.processing || (!!turnstileSiteKey && !form.turnstileToken)">
+
+                        <Alert v-if="(form.errors as any).rateLimit" variant="destructive">
+                            <AlertCircle class="w-4 h-4" />
+                            <AlertTitle>Error</AlertTitle>
+                            <AlertDescription>
+                                {{ (form.errors as any).rateLimit }}
+                            </AlertDescription>
+                        </Alert>
+
+                        <Button type="submit" class="w-full"
+                            :disabled="form.processing || (!!turnstileSiteKey && !form.turnstileToken)">
+                            <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
                             Share Memory
                         </Button>
                     </form>

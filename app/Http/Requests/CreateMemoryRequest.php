@@ -23,11 +23,6 @@ class CreateMemoryRequest extends FormRequest
                 File::image(false)
                     ->max(25 * 1024)
             ],
-            'turnstileToken' => [
-                'sometimes',
-                'nullable',
-                new TurnstileValid,
-            ]
         ];
     }
 
