@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SharedMemoriesController;
 use App\Http\Controllers\ShareMemoryController;
 use App\Http\Controllers\PhoneRecordingsController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,9 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::get('phone-recordings', [PhoneRecordingsController::class, 'index'])->name('phone-recordings');
     Route::patch('phone-recordings/{phoneRecording}', [PhoneRecordingsController::class, 'update'])->name('phone-recordings.update');
     Route::get('phone-recordings/{phoneRecording}/download', [PhoneRecordingsController::class, 'download'])->name('phone-recordings.download');
+
+    Route::get('shared-memories', [SharedMemoriesController::class, 'index'])->name('shared-memories');
+    Route::get('shared-memories/{sharedMemory}/download-voice-message', [SharedMemoriesController::class, 'downloadVoiceMessage'])->name('shared-memories.download-voice-message');
 });
 
 require __DIR__.'/settings.php';

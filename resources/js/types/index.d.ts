@@ -53,4 +53,25 @@ export interface PhoneRecording {
     updated_at: string;
 }
 
+export interface SharedMemory {
+    id: string;
+    name: string;
+    message: string | null;
+    has_voice_message: bool;
+    voice_message_extension: string | null;
+    attachments: SharedMemoryAttachment[];
+    ip_address: string;
+    user_agent: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface SharedMemoryAttachment {
+    id: string;
+    name: string;
+    mimeType: string;
+    extension: string;
+    size: string;
+}
+
 export type BreadcrumbItemType = BreadcrumbItem;
