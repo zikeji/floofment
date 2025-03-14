@@ -82,11 +82,13 @@ onBeforeUnmount(function () {
                         </TableCell>
                         <TableCell>{{ new Date(recording.created_at).toLocaleString() }}</TableCell>
                         <TableCell class="text-right">
-                            <template v-if="recording.status === 'available'">
-                                <RecordingPlayer :download-url="`phone-recordings/${recording.sid}/download`"
-                                    :url="storageUrl(`phone_recordings/${recording.sid}.mp3`)" :volume="sharedVolume"
-                                    @update-volume="sharedVolume = $event" />
-                            </template>
+                            <div class="flex flex-row gap-3 justify-end">
+                                <template v-if="recording.status === 'available'">
+                                    <RecordingPlayer :download-url="`phone-recordings/${recording.sid}/download`"
+                                        :url="storageUrl(`phone_recordings/${recording.sid}.mp3`)"
+                                        :volume="sharedVolume" @update-volume="sharedVolume = $event" />
+                                </template>
+                            </div>
                         </TableCell>
                     </TableRow>
                 </TableBody>
