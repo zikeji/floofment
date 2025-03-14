@@ -9,7 +9,19 @@ use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
+/**
+ * @property string $sid
+ * @property string $from
+ * @property string $called
+ * @property PhoneRecordingStatus $status
+ * @property Contact $contact
+ * @property string $label
+ * @property string $recording_url
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ */
 class PhoneRecording extends Model
 {
     use BroadcastsEvents, HasFactory;
@@ -49,12 +61,7 @@ class PhoneRecording extends Model
 
     public function getRecordingUrlAttribute(): string
     {
-        return sprintf(
-            '%s/%s/phone_recordings/%s.mp3',
-            config('filesystems.disks.s3.endpoint'),
-            config('filesystems.disks.s3.bucket'),
-            $this->sid,
-        );
+        return Storage::disk('s3')->url("phone_recordings/{$this->sid}.mp3");
     }
 
     public function broadcastOn(string $event): array
