@@ -44,6 +44,9 @@ class PhoneRecordingsController extends Controller
             throw new NotFoundHttpException;
         }
 
-        return Storage::disk('s3')->download("phone_recordings/{$phoneRecording->sid}.mp3");
+        return Storage::disk('s3')->download(
+            "phone_recordings/{$phoneRecording->sid}.mp3",
+            "{$phoneRecording->created_at->format('Y-m-d')}_{$phoneRecording->label}_{$phoneRecording->sid}.mp3",
+        );
     }
 }
