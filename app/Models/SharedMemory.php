@@ -43,8 +43,14 @@ class SharedMemory extends Model
             broadcast(new SharedMemoriesCountChanged(static::count()));
         });
 
-        static::deleted(function () {
+        static::deleted(function (self $model) {
             broadcast(new SharedMemoriesCountChanged(static::count()));
+            $model->attachments->each(function ($attachment) {
+                Storage::disk('s3')->delete("memory-attachments/{$attachment->id}.{$attachment->extension}");
+            });
+            if ($model->has_voice_message) {
+                Storage::disk('s3')->delete("voice-messages/{$model->id}.{$model->voice_message_extension}");
+            }
         });
     }
 

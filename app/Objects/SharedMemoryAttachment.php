@@ -3,6 +3,7 @@
 namespace App\Objects;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Facades\Storage;
 
 class SharedMemoryAttachment implements \JsonSerializable, Arrayable
 {
@@ -19,6 +20,11 @@ class SharedMemoryAttachment implements \JsonSerializable, Arrayable
         $this->mimeType = $mimeType;
         $this->extension = $extension;
         $this->size = $size;
+    }
+
+    public function getUrl(): string
+    {
+        return Storage::disk('s3')->url("memory-attachments/{$this->id}.{$this->extension}");
     }
 
     public function jsonSerialize(): array
