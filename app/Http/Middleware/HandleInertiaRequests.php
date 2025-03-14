@@ -49,11 +49,9 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             ...(auth()->hasUser() ? [
-                'phoneRecordings' => [
-                    'count' => PhoneRecording::count(),
-                ],
-                'sharedMemories' => [
-                    'count' => SharedMemory::count(),
+                'counts' => [
+                    'phoneRecordings' => PhoneRecording::count(),
+                    'sharedMemories' => SharedMemory::count(),
                 ],
             ] : []),
             'ziggy' => [

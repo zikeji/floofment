@@ -10,8 +10,8 @@ import { onBeforeUnmount, onMounted, ref } from 'vue';
 
 const page = usePage<SharedData>();
 
-const phoneRecordingCount = ref(page.props.phoneRecordings?.count ?? 0);
-const sharedMemoriesCount = ref(page.props.sharedMemories?.count ?? 0);
+const phoneRecordingCount = ref(page.props.counts?.phoneRecordings ?? 0);
+const sharedMemoriesCount = ref(page.props.counts?.sharedMemories ?? 0);
 
 const mainNavItems: NavItem[] = [
     {

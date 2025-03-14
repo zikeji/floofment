@@ -24,12 +24,10 @@ export interface SharedData extends PageProps {
     quote: { message: string; author: string };
     auth: Auth;
     ziggy: Config & { location: string };
-    phoneRecordings?: {
-        count: number;
-    }
-    sharedMemories?: {
-        count: number;
-    }
+    counts?: {
+        phoneRecordings: number;
+        sharedMemories: number
+    };
 }
 
 export interface User {
