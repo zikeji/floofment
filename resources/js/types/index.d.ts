@@ -23,7 +23,10 @@ export interface SharedData extends PageProps {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
-    ziggy: Config & { location: string };
+    ziggy: Config & {
+        location: string;
+        storage_base_url: string;
+    };
     counts?: {
         phoneRecordings: number;
         sharedMemories: number
@@ -45,7 +48,6 @@ export interface PhoneRecording {
     called: string;
     from: string;
     label: string;
-    recording_url: string;
     status: 'started' | 'recorded' | 'available';
     created_at: string;
     updated_at: string;

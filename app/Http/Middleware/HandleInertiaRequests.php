@@ -6,6 +6,8 @@ use App\Models\PhoneRecording;
 use App\Models\SharedMemory;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -57,6 +59,7 @@ class HandleInertiaRequests extends Middleware
             'ziggy' => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
+                'storage_base_url' => Str::rtrim(Storage::disk('s3')->url('fake-path'), 'fake-path'),
             ],
         ];
     }

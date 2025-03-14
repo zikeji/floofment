@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Storage;
  * @property PhoneRecordingStatus $status
  * @property Contact $contact
  * @property string $label
- * @property string $recording_url
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  */
@@ -52,16 +51,11 @@ class PhoneRecording extends Model
         });
     }
 
-    protected $appends = ['label', 'recording_url'];
+    protected $appends = ['label'];
 
     public function getLabelAttribute(): string
     {
         return $this->contact?->nickname ?? $this->from;
-    }
-
-    public function getRecordingUrlAttribute(): string
-    {
-        return Storage::disk('s3')->url("phone_recordings/{$this->sid}.mp3");
     }
 
     public function broadcastOn(string $event): array
