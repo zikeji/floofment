@@ -13,3 +13,7 @@ Broadcast::channel('Sidebar', function () {
 Broadcast::channel('App.Models.PhoneRecording', function () {
     return auth()->hasUser();
 });
+
+Broadcast::channel('App.Models.SharedMemory', function () {
+    return auth()->hasUser();
+});

@@ -1,12 +1,19 @@
 <?php
 
+use App\Http\Controllers\SharedMemoryController;
 use App\Http\Controllers\PhoneRecordingsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('Index');
 })->name('home');
+
+Route::get('/thanks-for-sharing', function () {
+    return Inertia::render('MemoryShared');
+})->name('memory.shared.confirmation');
+
+Route::post('/memory', [SharedMemoryController::class, 'create'])->name('memory.create');
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::get('dashboard', function () {
