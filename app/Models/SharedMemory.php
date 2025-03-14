@@ -46,21 +46,12 @@ class SharedMemory extends Model
         static::deleted(function (self $model) {
             broadcast(new SharedMemoriesCountChanged(static::count()));
             $model->attachments->each(function ($attachment) {
-                Storage::disk('s3')->delete("memory-attachments/{$attachment->id}.{$attachment->extension}");
+                Storage::disk('s3')->delete("memory_attachments/{$attachment->id}.{$attachment->extension}");
             });
             if ($model->has_voice_message) {
-                Storage::disk('s3')->delete("voice-messages/{$model->id}.{$model->voice_message_extension}");
+                Storage::disk('s3')->delete("voice_messages/{$model->id}.{$model->voice_message_extension}");
             }
         });
-    }
-
-    protected $appends = ['voice_message_url'];
-
-    public function getVoiceMessageUrlAttribute(): string
-    {
-        return $this->has_voice_message
-            ? Storage::disk('s3')->url("voice-messages/{$this->id}.{}")
-            : '';
     }
 
     public function broadcastOn(string $event): array

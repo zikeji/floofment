@@ -75,7 +75,7 @@ class ShareMemoryController extends Controller
 
         foreach ($files as $name => $file) {
             $file->storeAs(
-                'memory-attachments',
+                'memory_attachments',
                 $name,
                 's3',
             );
@@ -83,7 +83,7 @@ class ShareMemoryController extends Controller
 
         if ($hasVoiceMessage) {
             $request->file('voiceMessage')->storeAs(
-                'voice-messages',
+                'voice_messages',
                 "{$memory->id}.{$voiceMessageExtension}",
                 's3'
             );
