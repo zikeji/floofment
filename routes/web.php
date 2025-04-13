@@ -5,7 +5,6 @@ use App\Http\Controllers\PhoneRecordingsController;
 use App\Http\Controllers\SharedMemoriesController;
 use App\Http\Controllers\ShareMemoryController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [ShareMemoryController::class, 'index'])->name('home');
 Route::post('/memory', [ShareMemoryController::class, 'create'])->name('memory.create');

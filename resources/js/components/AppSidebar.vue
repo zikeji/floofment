@@ -5,8 +5,8 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { SharedData, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { Images, LayoutGrid, Voicemail } from 'lucide-vue-next';
-import AppLogo from './AppLogo.vue';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import AppLogo from './AppLogo.vue';
 
 const page = usePage<SharedData>();
 

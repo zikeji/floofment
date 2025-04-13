@@ -29,7 +29,7 @@ export interface SharedData extends PageProps {
     };
     counts?: {
         phoneRecordings: number;
-        sharedMemories: number
+        sharedMemories: number;
     };
 }
 

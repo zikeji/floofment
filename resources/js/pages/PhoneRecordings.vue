@@ -1,20 +1,13 @@
 <script setup lang="ts">
+import PhoneContact from '@/components/phone-recordings/PhoneContact.vue';
+import PhoneRecordingStatus from '@/components/phone-recordings/PhoneRecordingStatus.vue';
+import RecordingPlayer from '@/components/RecordingPlayer.vue';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { storageUrl } from '@/composables/storageUrl';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { PhoneRecording, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import PhoneRecordingStatus from '@/components/phone-recordings/PhoneRecordingStatus.vue';
-import PhoneContact from '@/components/phone-recordings/PhoneContact.vue';
-import RecordingPlayer from '@/components/RecordingPlayer.vue';
-import { storageUrl } from '@/composables/storageUrl';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -31,9 +24,12 @@ const props = defineProps<Props>();
 
 const sharedVolume = ref(1);
 
-watch(() => sharedVolume.value, (volume) => {
-    localStorage.setItem('volume', volume.toString());
-});
+watch(
+    () => sharedVolume.value,
+    (volume) => {
+        localStorage.setItem('volume', volume.toString());
+    },
+);
 
 onMounted(function () {
     sharedVolume.value = parseFloat(localStorage.getItem('volume') ?? '1');
@@ -48,7 +44,10 @@ onMounted(function () {
         props.recordings[i] = e.model;
     });
     channel.listen('.PhoneRecordingDeleted', (e: { model: PhoneRecording }) => {
-        props.recordings.splice(props.recordings.findIndex((m) => m.sid === e.model.sid), 1);
+        props.recordings.splice(
+            props.recordings.findIndex((m) => m.sid === e.model.sid),
+            1,
+        );
     });
 });
 
@@ -58,7 +57,6 @@ onBeforeUnmount(function () {
 </script>
 
 <template>
-
     <Head title="Phone Recordings" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
@@ -82,11 +80,14 @@ onBeforeUnmount(function () {
                         </TableCell>
                         <TableCell>{{ new Date(recording.created_at).toLocaleString() }}</TableCell>
                         <TableCell class="text-right">
-                            <div class="flex flex-row gap-3 justify-end">
+                            <div class="flex flex-row justify-end gap-3">
                                 <template v-if="recording.status === 'available'">
-                                    <RecordingPlayer :download-url="`phone-recordings/${recording.sid}/download`"
+                                    <RecordingPlayer
+                                        :download-url="`phone-recordings/${recording.sid}/download`"
                                         :url="storageUrl(`phone_recordings/${recording.sid}.mp3`)"
-                                        :volume="sharedVolume" @update-volume="sharedVolume = $event" />
+                                        :volume="sharedVolume"
+                                        @update-volume="sharedVolume = $event"
+                                    />
                                 </template>
                             </div>
                         </TableCell>

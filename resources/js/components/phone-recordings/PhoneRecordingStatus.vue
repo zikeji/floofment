@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { PhoneRecording } from '@/types';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
-import { ref } from 'vue';
 import { CloudDownload, FileCheck, Phone } from 'lucide-vue-next';
+import { ref } from 'vue';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 
 interface Props {
-    status: PhoneRecording["status"];
+    status: PhoneRecording['status'];
 }
 
 const props = defineProps<Props>();

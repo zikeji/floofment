@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import DonutChart from '@/components/ui/chart-donut/DonutChart.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
-import DonutChart from '@/components/ui/chart-donut/DonutChart.vue';
-import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -12,7 +12,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/dashboard',
     },
 ];
-
 
 interface Props {
     phoneRecordingsChartData: {
@@ -34,7 +33,7 @@ defineProps<Props>();
                     <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle>Phone Recordings</CardTitle>
                     </CardHeader>
-                    <CardContent class="p-0 pt-4 pb-5">
+                    <CardContent class="p-0 pb-5 pt-4">
                         <DonutChart index="name" category="count" :data="phoneRecordingsChartData" />
                     </CardContent>
                 </Card>

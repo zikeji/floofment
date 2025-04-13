@@ -1,16 +1,16 @@
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
+import { definePreset } from '@primeuix/themes';
+import Lara from '@primeuix/themes/aura';
+import Echo from 'laravel-echo';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import PrimeVue from 'primevue/config';
+import Pusher from 'pusher-js';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
-import PrimeVue from 'primevue/config';
-import { definePreset } from '@primeuix/themes';
-import Lara from '@primeuix/themes/aura';
 import { initializeTheme } from './composables/useAppearance';
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
 
 const PrimeVuePreset = definePreset(Lara, {
     semantic: {
@@ -25,7 +25,7 @@ const PrimeVuePreset = definePreset(Lara, {
             700: '{rose.700}',
             800: '{rose.800}',
             900: '{rose.900}',
-            950: '{rose.950}'
+            950: '{rose.950}',
         },
         colorScheme: {
             light: {
@@ -41,8 +41,8 @@ const PrimeVuePreset = definePreset(Lara, {
                     700: '{zinc.700}',
                     800: '{zinc.800}',
                     900: '{zinc.900}',
-                    950: '{zinc.950}'
-                }
+                    950: '{zinc.950}',
+                },
             },
             dark: {
                 surface: {
@@ -57,11 +57,11 @@ const PrimeVuePreset = definePreset(Lara, {
                     700: '{neutral.700}',
                     800: '{neutral.800}',
                     900: '{neutral.900}',
-                    950: '{neutral.950}'
-                }
-            }
-        }
-    }
+                    950: '{neutral.950}',
+                },
+            },
+        },
+    },
 });
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';

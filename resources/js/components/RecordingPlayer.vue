@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useTemplateRef, watch } from 'vue';
-import { useMediaControls } from '@vueuse/core';
 import { Button } from '@/components/ui/button';
+import { useMediaControls } from '@vueuse/core';
 import { DownloadCloud } from 'lucide-vue-next';
+import { useTemplateRef, watch } from 'vue';
 
 interface Props {
     url: string;
@@ -12,7 +12,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
-    updateVolume: [value: number]
+    updateVolume: [value: number];
 }>();
 
 const audio = useTemplateRef('audio');
@@ -20,13 +20,19 @@ const { volume: controlVolume } = useMediaControls(audio, {
     src: props.url,
 });
 
-watch(() => controlVolume.value, (volume) => {
-    emit('updateVolume', volume);
-});
+watch(
+    () => controlVolume.value,
+    (volume) => {
+        emit('updateVolume', volume);
+    },
+);
 
-watch(() => props.volume, (volume) => {
-    controlVolume.value = volume;
-});
+watch(
+    () => props.volume,
+    (volume) => {
+        controlVolume.value = volume;
+    },
+);
 </script>
 
 <template>
