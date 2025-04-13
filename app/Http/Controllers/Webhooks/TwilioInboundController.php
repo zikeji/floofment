@@ -21,8 +21,11 @@ class TwilioInboundController extends Controller
             'called' => $request->get('Called'),
         ]);
 
+        /** @var string $greeting */
+        $greeting = config('twilio.greeting');
+
         $response = new VoiceResponse;
-        $response->play(url('audio/***REMOVED***'));
+        $response->play(url($greeting));
         $response->record([
             'action' => 'record',
             'method' => 'POST',
