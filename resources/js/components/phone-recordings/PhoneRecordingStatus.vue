@@ -8,7 +8,7 @@ interface Props {
     status: PhoneRecording['status'];
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 const icons = ref({ started: Phone, recorded: CloudDownload, available: FileCheck });
 const description = ref({
     started: 'This voicemail is in progress.',
