@@ -23,5 +23,5 @@ yarn-error.log
 /.vscode
 /.zed
 /bootstrap/cache
-public/audio
-!public/audio.gitkeep
+/public/audio/*
+!/public/audio/.gitkeep
