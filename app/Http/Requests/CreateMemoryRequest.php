@@ -12,11 +12,7 @@ class CreateMemoryRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:2', 'max:255'],
             'message' => ['sometimes', 'required_without:voiceMessage', 'nullable', 'string', 'min:2'],
-            'voiceMessage' => [
-                'sometimes', 'required_without:message', 'nullable',
-                File::types(['audio/*'])
-                    ->max(25 * 1024),
-            ],
+            'voiceMessage' => ['sometimes', 'required_without:message', 'nullable', 'mimes:webm,wav,ogg,mp3', 'max:25600'],
             'files.*' => [
                 'sometimes',
                 File::image(false)
